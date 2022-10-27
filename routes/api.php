@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminlistController;
+use App\Http\Controllers\Frontend\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,5 @@ Route::prefix('admin')->group(function () {
     // });
 });
 
-Route::get('/', function ()
-{
-    return 'some';
-});
+Route::get('posts', [PostController::class, 'index']);
+Route::post('post', [PostController::class, 'store']);
