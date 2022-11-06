@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,5 +18,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
+Route::get('/test', function () {
+    $users = User::paginate(10);
+
+    // return $users->links();
+    // $paginator = new Paginator();
+
+    // return $paginator->onFirstPage();
+
+    // return view('test', compact('users'));
+    return view('test', compact('users'));
+});
+
+
 
 require __DIR__.'/auth.php';

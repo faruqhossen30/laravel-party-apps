@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->text('body');
+            $table->integer('like')->nullable()->default(0);
             $table->integer('type')->nullable()->default(0);
             $table->timestamps();
         });
