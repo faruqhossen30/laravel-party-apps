@@ -17,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(10);
+        $posts = Post::with('user')->latest()->paginate(10);
         return response()->json($posts);
     }
 
@@ -48,17 +48,17 @@ class PostController extends Controller
         //     Image::make($imagethumbnail)->save('uploads/photos/post/' . $thumbnail);
         // }
 
-        if($request->has('file')){
-            foreach ($request->file('file') as $photo) {
-                $imagethumbnail = $photo;
-                $extension = $imagethumbnail->getClientOriginalExtension();
-                $thumbnail = Str::uuid() . '.' . $extension;
-                Image::make($imagethumbnail)->save('uploads/photos/post/' . $thumbnail);
-            }
+        // if($request->has('file')){
+        //     foreach ($request->file('file') as $photo) {
+        //         $imagethumbnail = $photo;
+        //         $extension = $imagethumbnail->getClientOriginalExtension();
+        //         $thumbnail = Str::uuid() . '.' . $extension;
+        //         Image::make($imagethumbnail)->save('uploads/photos/post/' . $thumbnail);
+        //     }
 
-        }else{
-            return 'nai';
-        }
+        // }else{
+        //     return 'nai';
+        // }
 
 
 
