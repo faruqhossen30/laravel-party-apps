@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Image;
 
-class PostController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +14,17 @@ class PostController extends Controller
      */
     public function index()
     {
-        return 'some';
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -28,29 +35,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
-        $request->validate([
-            'user_id'=> 'required',
-            'body'=> 'required'
-        ]);
-
-        $data = [
-            'user_id'=> $request->user_id,
-            'body'=> $request->body
-        ];
-
-        $thumbnail = null;
-        if ($request->file('file')) {
-            $imagethumbnail = $request->file('file');
-            $extension = $imagethumbnail->getClientOriginalExtension();
-            $thumbnail = Str::uuid() . '.' . $extension;
-            Image::make($imagethumbnail)->save('uploads/photos/' . $thumbnail);
-        }
-
-
-        $post = Post::create($data);
-
-        return response()->json($post);
+        return $request->all();
     }
 
     /**
@@ -60,6 +45,17 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
         //
     }
