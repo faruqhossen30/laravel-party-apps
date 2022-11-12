@@ -17,7 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return 'some';
+        $posts = Post::paginate(10);
+        return response()->json($posts);
     }
 
     /**
@@ -28,24 +29,37 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        // return $request->all();
         $request->validate([
-            'user_id'=> 'required',
-            'body'=> 'required'
+            'user_id' => 'required',
+            'body' => 'required'
         ]);
 
         $data = [
-            'user_id'=> $request->user_id,
-            'body'=> $request->body
+            'user_id' => $request->user_id,
+            'body' => $request->body
         ];
 
-        $thumbnail = null;
-        if ($request->file('file')) {
-            $imagethumbnail = $request->file('file');
-            $extension = $imagethumbnail->getClientOriginalExtension();
-            $thumbnail = Str::uuid() . '.' . $extension;
-            Image::make($imagethumbnail)->save('uploads/photos/' . $thumbnail);
+        // $thumbnail = null;
+        // if ($request->file('file')) {
+        //     $imagethumbnail = $request->file('file');
+        //     $extension = $imagethumbnail->getClientOriginalExtension();
+        //     $thumbnail = Str::uuid() . '.' . $extension;
+        //     Image::make($imagethumbnail)->save('uploads/photos/post/' . $thumbnail);
+        // }
+
+        if($request->has('file')){
+            foreach ($request->file('file') as $photo) {
+                $imagethumbnail = $photo;
+                $extension = $imagethumbnail->getClientOriginalExtension();
+                $thumbnail = Str::uuid() . '.' . $extension;
+                Image::make($imagethumbnail)->save('uploads/photos/post/' . $thumbnail);
+            }
+
+        }else{
+            return 'nai';
         }
+
 
 
         $post = Post::create($data);
