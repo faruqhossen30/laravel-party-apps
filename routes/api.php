@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\UnionController;
 use App\Http\Controllers\Admin\UpazilaController;
 use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\User\FollowerController;
+use App\Http\Controllers\User\PostlikeController;
 use App\Http\Controllers\User\UserprofileController;
 use App\Models\Organization;
 use Illuminate\Http\Request;
@@ -77,6 +79,11 @@ Route::prefix('user')->group(function () {
         Route::get('/index', [UserprofileController::class, 'index']);
         Route::post('/update/{id}', [UserprofileController::class, 'update']);
     });
+    // user
+    Route::post('post/like/{id}',[PostlikeController::class,'postLike']);
+
+    // follower
+    Route::post('follower/{id}',[FollowerController::class,'follower']);
 
 });
 
