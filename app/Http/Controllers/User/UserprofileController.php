@@ -25,8 +25,8 @@ class UserprofileController extends Controller
         if ($request->file('avatar')) {
             $image = $request->file('avatar');
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(300, 300)->save('uploads/photos/user_profile/' . $name_gen);
-            $save_url = 'uploads/photos/user_profile/' . $name_gen;
+            Image::make($image)->resize(300, 300)->save('uploads/photos/profile/' . $name_gen);
+            $save_url = 'uploads/photos/profile/' . $name_gen;
         }
         $data = [
             'avatar' => $save_url,
@@ -46,7 +46,7 @@ class UserprofileController extends Controller
             'twitter' => $request->twitter,
         ];
 
-        $updateProfile = User::where('id', $id)->first()->update($data);
+        $updateProfile = User::where('id', $id)->update($data);
         return response()->json($updateProfile);
     }
 }
