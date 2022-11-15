@@ -80,7 +80,7 @@ Route::prefix('user')->group(function () {
         Route::post('/update/{id}', [UserprofileController::class, 'update']);
     });
     // user
-    Route::post('post/like/{id}',[PostlikeController::class,'postLike']);
+    Route::post('post/like',[PostlikeController::class,'postLike']);
 
     // follower
     Route::post('follower/{id}',[FollowerController::class,'follower']);

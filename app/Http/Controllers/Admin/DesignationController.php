@@ -62,7 +62,8 @@ class DesignationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $request->all();
+        // return $request->method();
+        // return $request->all();
         $request->validate([
             'title'=>'required',
         ]);
@@ -73,7 +74,7 @@ class DesignationController extends Controller
             'user_id'=>$request->user_id,
         ];
 
-        $data=Designation::where('id',$id)->first()->update($data);
+        $data=Designation::where('id',$id)->update($data);
         return response()->json($data);
     }
 

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class PostlikeController extends Controller
 {
-    public function postLike(Request $request, $id)
+    public function postLike(Request $request)
     {
 
         $request->validate([
@@ -21,14 +21,17 @@ class PostlikeController extends Controller
             'user_id' => $request->user_id,
         ];
 
-        $likecheck = PostLike::where('user_id', $request->user_id)->first();
+        $likecheck = PostLike::where('post_id', $request->post_id)->where('user_id', $request->user_id)->first();
         // return $likecheck;
         if ($likecheck) {
             $likecheck->delete();
-            return "now delete";
+
+            $likes = PostLike::where('post_id', $request->post_id)->count();
+            return response()->json($likes);
         } else {
             $like = PostLike::create($data);
-            return response()->json($like);
+            $likes = PostLike::where('post_id', $request->post_id)->count();
+            return response()->json($likes);
         }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\Post\PostImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Image;
@@ -17,7 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('user')->latest()->paginate(10);
+        $posts = Post::with('user', 'photo')->withCount('likes')->latest()->paginate(10);
         return response()->json($posts);
     }
 
@@ -31,22 +32,22 @@ class PostController extends Controller
     {
         // return $request->all();
         $request->validate([
-            'user_id' => 'required',
+            // 'user_id' => 'required',
             'body' => 'required'
         ]);
 
         $data = [
-            'user_id' => $request->user_id,
+            'user_id' => 2,
             'body' => $request->body
         ];
 
-        // $thumbnail = null;
-        // if ($request->file('file')) {
-        //     $imagethumbnail = $request->file('file');
-        //     $extension = $imagethumbnail->getClientOriginalExtension();
-        //     $thumbnail = Str::uuid() . '.' . $extension;
-        //     Image::make($imagethumbnail)->save('uploads/photos/post/' . $thumbnail);
-        // }
+        $thumbnail = null;
+        if ($request->hasFile('file')) {
+            $imagethumbnail = $request->file('file');
+            $extension = $imagethumbnail->getClientOriginalExtension();
+            $thumbnail = Str::uuid() . '.' . $extension;
+            Image::make($imagethumbnail)->save('uploads/photos/post/' . $thumbnail);
+        }
 
         // if($request->has('file')){
         //     foreach ($request->file('file') as $photo) {
@@ -56,13 +57,17 @@ class PostController extends Controller
         //         Image::make($imagethumbnail)->save('uploads/photos/post/' . $thumbnail);
         //     }
 
-        // }else{
-        //     return 'nai';
         // }
 
 
 
         $post = Post::create($data);
+        if($thumbnail){
+            PostImage::create([
+                'post_id'=> $post->id,
+                'name'=> $thumbnail
+            ]);
+        };
 
         return response()->json($post);
     }
